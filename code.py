@@ -8,13 +8,13 @@ from adafruit_midi.note_on import NoteOn
 # Initialize MIDI output
 midi = adafruit_midi.MIDI(midi_out=usb_midi.ports[1])
 
-# Analog input setup for the piezo sensor (connected to GP26 / ADC0)
+# Analog input setup for the piezo sensor (connected to GP26 / ADC0) and (GP27 / ADC1)
 piezo = analogio.AnalogIn(board.A0)
 piezo2 = analogio.AnalogIn(board.A1)
 
 octave = 4
-midi_channel = 1  # 0-15
-midi_channel2 = 2
+midi_channel = 0  # 0-15
+midi_channel2 = 1
 last_velocity = 0
 last_velocity2 = 0
 velocity_threshold = 5
@@ -49,7 +49,7 @@ while True:
             # Send a NoteOn with velocity 0 to stop the note
             note_off = NoteOn((12 * octave), 0)
             midi.send(note_off, channel=midi_channel)
-            print("SENT NOTE", midi_velocity)
+            print("SENT NOTE channel 1", midi_velocity)
 
             last_hit_time = current_time
 
@@ -63,7 +63,7 @@ while True:
             # Send a NoteOn with velocity 0 to stop the note
             note_off = NoteOn((12 * octave), 0)
             midi.send(note_off, channel=midi_channel2)
-            print("SENT NOTE", midi_velocity2)
+            print("SENT NOTE channel 2", midi_velocity2)
 
             last_hit_time = current_time
 
